@@ -14,7 +14,6 @@ exports.create = async function (req, res, next) {
 exports.list = async function (req, res, next) {
   try {
     const tasks = await Task.find({});
-    // await new Promise(r => setTimeout(r, 5000));
     res.json({ message: "Fetch successful", data: tasks });
   } catch (err) {
     return next(err);
