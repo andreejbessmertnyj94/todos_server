@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let TaskSchema = new Schema(
+const TaskSchema = new Schema(
   {
     content: {
       type: String,
@@ -9,6 +9,10 @@ let TaskSchema = new Schema(
       maxlength: [120, "The maximum allowed length is 120 characters."],
     },
     completed: { type: Boolean, default: false },
+    user_id: {
+      type: mongoose.ObjectId,
+      required: [true, "The task must have an owner."],
+    },
   },
   { versionKey: false }
 );
