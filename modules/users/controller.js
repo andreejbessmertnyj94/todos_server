@@ -18,14 +18,14 @@ async function findByCredentials(username, password) {
   const user = await User.findOne({ username });
   if (!user) {
     throw {
-      name: "AuthorisationError",
+      name: "AuthorizationError",
       message: "User does not exist",
     };
   }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
     throw {
-      name: "AuthorisationError",
+      name: "AuthorizationError",
       message: "Wrong password",
     };
   }
