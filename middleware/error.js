@@ -4,7 +4,7 @@ const errorHandler = function (err, req, res, next) {
     case "TokenExpiredError":
       res.status(401).json({ message: "Unauthorized" });
       break;
-    case "AuthorisationError":
+    case "AuthorizationError":
       res.status(401).json({ message: err.message });
       break;
     case "JsonWebTokenError":
