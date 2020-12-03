@@ -2,7 +2,8 @@ const Task = require("./model");
 
 exports.create = async (req, res, next) => {
   try {
-    const result = await Task.create({ ...req.body, user_id: req.user._id });
+    const { content } = req.body;
+    const result = await Task.create({ content, user_id: req.user._id });
     res.status(201).json({ message: "Create successful", data: [result] });
   } catch (err) {
     return next(err);
@@ -20,12 +21,13 @@ exports.list = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
+    const { completed, content } = req.body;
     const result = await Task.findOneAndUpdate(
       {
         user_id: req.user._id,
         _id: req.params.id,
       },
-      req.body,
+      { completed, content },
       {
         omitUndefined: true,
         runValidators: true,
@@ -45,9 +47,10 @@ exports.update = async (req, res, next) => {
 
 exports.updateAll = async (req, res, next) => {
   try {
+    const { completed, content } = req.body;
     await Task.updateMany(
       { user_id: req.user._id, completed: !req.body.completed },
-      req.body,
+      { completed, content },
       {
         omitUndefined: true,
         runValidators: true,
