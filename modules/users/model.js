@@ -13,7 +13,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
-      minLength: 7,
+      minlength: [7, "The minimum allowed password length is 7 characters."],
     },
     tokens: {
       type: Array,
