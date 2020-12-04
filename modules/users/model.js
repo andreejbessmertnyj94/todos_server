@@ -6,13 +6,13 @@ const UserSchema = new Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, "The username field must not be empty."],
       unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "The password field must not be empty."],
       minlength: [7, "The minimum allowed password length is 7 characters."],
     },
     tokens: {

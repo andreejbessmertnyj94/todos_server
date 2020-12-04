@@ -16,7 +16,7 @@ const authenticateToken = async (req, res, next) => {
     if (!user) {
       throw {
         name: "UnauthorizedError",
-        message: "User not found",
+        message: "User from token not found",
       };
     }
     req.user = user;

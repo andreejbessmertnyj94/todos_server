@@ -34,9 +34,13 @@ async function findByCredentials(username, password) {
 
 exports.register = async (req, res, next) => {
   try {
-    await User.create(req.body);
+    const { username, password } = req.body;
+    await User.create({ username, password });
     res.status(201).json({ message: "Registration successful" });
   } catch (err) {
+    if (err.code === 11000) {
+      err.message = "This username is already taken";
+    }
     return next(err);
   }
 };
