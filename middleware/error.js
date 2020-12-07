@@ -16,8 +16,8 @@ const errorHandler = function (err, req, res, next) {
       res.status(400).json({ message: "Bad request" });
       break;
     case "ValidationError":
-      const userMessage = Object.values(err.errors).map(elem => elem.message)
-      res.status(400).json({ message: userMessage.join(' ') });
+      const userMessage = Object.values(err.errors).map((elem) => elem.message);
+      res.status(400).json({ message: userMessage.join(" ") });
       break;
     case "MongooseServerSelectionError":
       res.status(503).json({ message: "Service Unavailable" });
