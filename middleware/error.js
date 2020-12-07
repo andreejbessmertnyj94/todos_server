@@ -9,6 +9,7 @@ const errorHandler = function (err, req, res, next) {
       res.status(400).json({ message: err.message });
       break;
     case "JsonWebTokenError":
+    case "SyntaxError":
       res.status(403).json({ message: "Forbidden" });
       break;
     case "CastError":
