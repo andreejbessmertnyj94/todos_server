@@ -9,7 +9,9 @@ mongoose
   })
   .catch((err) => console.error(err.reason));
 
-mongoose.set("debug", true);
+if (process.env.NODE_ENV === "development") {
+  mongoose.set("debug", true);
+}
 mongoose.set("returnOriginal", false);
 
 mongoose.connection.on("error", () => {
