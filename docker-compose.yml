@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  rest_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 3001:3001
+    env_file: .env
+    environment:
+      - EXPRESS_PORT=3001
+      - MONGODB_URI=mongodb://mongo:27017/todos
+    command: yarn run start
+
+  mongo:
+    image: mongo:4
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+volumes:
+  mongodb:
+  mongodb_config:

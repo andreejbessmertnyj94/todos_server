@@ -1,7 +1,8 @@
-require("dotenv").config();
+// require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const port = process.env.EXPRESS_PORT;
 require("./middleware/db");
@@ -16,6 +17,7 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use("/users", usersRouter);
 app.use("/tasks", auth, tasksRouter);
