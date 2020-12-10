@@ -1,10 +1,12 @@
-// require("dotenv").config();
+if (process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+}
 
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 
-const port = process.env.EXPRESS_PORT;
+const port = process.env.PORT;
 require("./middleware/db");
 
 const tasksRouter = require("./modules/tasks/route");
@@ -14,7 +16,9 @@ const error = require("./middleware/error");
 
 const app = express();
 
-app.use(morgan("dev"));
+process.env.NODE_ENV === "development"
+  ? app.use(morgan("dev"))
+  : app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());

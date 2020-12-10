@@ -1,5 +1,5 @@
 FROM node:14-slim
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 WORKDIR /rest_server
 
