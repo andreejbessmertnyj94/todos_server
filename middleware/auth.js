@@ -1,26 +1,26 @@
-const jwt = require("jsonwebtoken");
-const User = require("../modules/users/model");
+const jwt = require('jsonwebtoken');
+const User = require('../modules/users/model');
 
 const authenticateToken = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
   try {
     if (!token) {
       throw {
-        name: "UnauthorizedError",
+        name: 'UnauthorizedError',
         message:
-          "Attempt to access without the token, or an incorrect token format.",
+          'Attempt to access without the token, or an incorrect token format.',
       };
     }
 
     const data = jwt.verify(token, process.env.JWT_KEY);
-    const user = await User.findOne({ _id: data._id, "tokens.value": token });
+    const user = await User.findOne({ _id: data._id, 'tokens.value': token });
 
     if (!user) {
       throw {
-        name: "UnauthorizedError",
-        message: "User from token not found",
+        name: 'UnauthorizedError',
+        message: 'User from token not found',
       };
     }
 

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -9,11 +9,11 @@ mongoose
   })
   .catch((err) => console.error(err.reason));
 
-if (process.env.NODE_ENV === "development") {
-  mongoose.set("debug", true);
+if (process.env.NODE_ENV === 'development') {
+  mongoose.set('debug', true);
 }
-mongoose.set("returnOriginal", false);
+mongoose.set('returnOriginal', false);
 
-mongoose.connection.on("error", () => {
-  console.error("MongoDB connection error");
+mongoose.connection.on('error', () => {
+  console.error('MongoDB connection error');
 });
