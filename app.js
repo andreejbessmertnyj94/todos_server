@@ -13,6 +13,7 @@ const tasksRouter = require('./modules/tasks/route');
 const usersRouter = require('./modules/users/route');
 const auth = require('./middleware/auth');
 const error = require('./middleware/error');
+const sequelize = require('./middleware/db');
 
 const app = express();
 
@@ -33,8 +34,11 @@ const server = app.listen(port, () => {
   console.log('Server is up and running on port number ' + port);
 });
 
-process.on('SIGTERM', () => {
+process.on('SIGINT', () => {
+  sequelize.close().then(() => {
+    console.log('DB connection closed');
+  });
   server.close(() => {
-    console.log('Process terminated');
+    console.log('Server stopped');
   });
 });

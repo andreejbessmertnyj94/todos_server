@@ -1,19 +1,14 @@
-const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
 
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-  })
-  .catch((err) => console.error(err.reason));
+const sequelize = new Sequelize(process.env.POSTGRES_URI);
 
-if (process.env.NODE_ENV === 'development') {
-  mongoose.set('debug', true);
-}
-mongoose.set('returnOriginal', false);
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to DB has been established successfully');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+})();
 
-mongoose.connection.on('error', () => {
-  console.error('MongoDB connection error');
-});
+module.exports = sequelize;
