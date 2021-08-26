@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../modules/users/model');
+const { Token } = require('../modules/users/model');
 
 const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -15,17 +15,22 @@ const authenticateToken = async (req, res, next) => {
     }
 
     const data = jwt.verify(token, process.env.JWT_KEY);
-    const user = await User.findOne({ _id: data._id, 'tokens.value': token });
 
-    if (!user) {
+    const dbToken = await Token.findOne({
+      where: {
+        UserId: data.id,
+        value: token,
+      },
+    });
+
+    if (!dbToken) {
       throw {
         name: 'UnauthorizedError',
-        message: 'User from token not found',
+        message: 'User from token or token not found',
       };
     }
 
-    req.user = user;
-    req.token = token;
+    req.token = dbToken;
 
     next();
   } catch (err) {

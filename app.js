@@ -6,15 +6,13 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const port = process.env.PORT;
-require('./middleware/db');
-
 const tasksRouter = require('./modules/tasks/route');
 const usersRouter = require('./modules/users/route');
 const auth = require('./middleware/auth');
 const error = require('./middleware/error');
 const sequelize = require('./middleware/db');
 
+const port = process.env.PORT;
 const app = express();
 
 process.env.NODE_ENV === 'development'
