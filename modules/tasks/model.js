@@ -1,20 +1,38 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { DataTypes } = require('sequelize');
+const Joi = require('joi');
 
-const TaskSchema = new Schema(
-  {
-    content: {
-      type: String,
-      required: [true, 'The task should not be empty.'],
-      maxlength: [120, 'The maximum allowed length is 120 characters.'],
-    },
-    completed: { type: Boolean, default: false },
-    user_id: {
-      type: mongoose.ObjectId,
-      required: [true, 'The task must have an owner.'],
-    },
+const sequelize = require('../../middleware/db');
+const { User } = require('../users/model');
+
+const Task = sequelize.define('Task', {
+  content: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  { versionKey: false }
-);
+  completed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+});
 
-module.exports = mongoose.model('Task', TaskSchema);
+const TaskValidator = Joi.object({
+  content: Joi.string().min(3).max(120).required().messages({
+    'string.empty': 'The task should not be empty.',
+    'string.min': 'The minimum allowed length is {#limit} characters.',
+    'string.max': 'The maximum allowed length is {#limit} characters.',
+    'any.required': 'The content is a required field',
+  }),
+  completed: Joi.boolean(),
+});
+
+User.hasMany(Task, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+Task.belongsTo(User);
+
+module.exports = { Task, TaskValidator };

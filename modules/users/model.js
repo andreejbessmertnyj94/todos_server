@@ -44,6 +44,9 @@ const Token = sequelize.define('Token', {
 });
 
 User.hasMany(Token, {
+  foreignKey: {
+    allowNull: false,
+  },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
